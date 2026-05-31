@@ -1,0 +1,41 @@
+{
+  "services": [
+    {
+      "name": "users-api",
+      "url": "http://localhost:3000",
+      "environment": "local",
+      "owner": "platform",
+      "description": "Handles user profiles and account lookups.",
+      "healthUrl": "http://localhost:3000/health",
+      "tags": ["api", "users"],
+      "metadata": {
+        "repo": "users-api",
+        "critical": true
+      }
+    },
+    {
+      "name": "orders-api",
+      "url": "http://localhost:3001",
+      "environment": "local",
+      "owner": "commerce",
+      "description": "Handles order creation and order history.",
+      "healthUrl": "http://localhost:3001/health",
+      "tags": ["api", "orders"],
+      "metadata": {
+        "repo": "orders-api",
+        "critical": true
+      }
+    },
+    {
+      "name": "web-app",
+      "url": "http://localhost:5173",
+      "environment": "local",
+      "owner": "frontend",
+      "description": "Local frontend application.",
+      "tags": ["frontend", "web"],
+      "metadata": {
+        "framework": "react"
+      }
+    }
+  ]
+}
