@@ -22,7 +22,15 @@ export class ServiceRegistry {
   }
 
   static fromSerialized(registry: SerializedServiceRegistry): ServiceRegistry {
-    throw new Error("Not implemented");
+    const services = registry.services.map((service) => {
+      return new Service({
+        ...service,
+        tags: service.tags ?? [],
+        metadata: service.metadata ?? {},
+      });
+    });
+
+    return new ServiceRegistry(services);
   }
 
   add(input: ServiceInput): Service {

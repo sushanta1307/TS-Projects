@@ -56,23 +56,45 @@ export class Service {
   }
 
   static from(input: ServiceInput): Service {
-    throw new Error("Not implemented");
+    return new Service(input);
   }
 
   static fromSerialized(service: SerializedService): Service {
-    throw new Error("Not implemented");
+    return new Service(service);
   }
 
   toJSON(): SerializedService {
-    throw new Error("Not implemented");
+    const service: SerializedService = {
+      name: this.name,
+      url: this.url,
+      environment: this.environment,
+      owner: this.owner,
+      tags: [...this.tags],
+      metadata: { ...this.metadata },
+    };
+
+    if (this.description !== undefined) {
+      service.description = this.description;
+    }
+
+    if (this.healthUrl !== undefined) {
+      service.healthUrl = this.healthUrl;
+    }
+
+    return service;
   }
 
   withUpdates(updates: Partial<ServiceInput>): Service {
-    throw new Error("Not implemented");
+    return new Service({
+      ...this.toJSON(),
+      ...updates,
+      tags: updates.tags ?? this.tags,
+      metadata: updates.metadata ?? this.metadata,
+    });
   }
 
   getHealthCheckUrl(): string {
-    throw new Error("Not implemented");
+    return this.healthUrl ?? "";
   }
 }
 
