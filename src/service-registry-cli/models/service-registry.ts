@@ -18,7 +18,7 @@ export class ServiceRegistry {
   }
 
   static empty(): ServiceRegistry {
-    throw new Error("Not implemented");
+    return new ServiceRegistry();
   }
 
   static fromSerialized(registry: SerializedServiceRegistry): ServiceRegistry {
@@ -34,11 +34,11 @@ export class ServiceRegistry {
   }
 
   add(input: ServiceInput): Service {
-    throw new Error("Not implemented");
+    return new Service(input);
   }
 
   get(name: string): Service | undefined {
-    throw new Error("Not implemented");
+    return this.servicesByName.get(name);
   }
 
   list(filter?: ServiceFilter): Service[] {
@@ -50,14 +50,21 @@ export class ServiceRegistry {
   }
 
   remove(name: string): Service {
-    throw new Error("Not implemented");
+    if(!this.has(name)) {
+      throw new Error(`Service with name "${name}" does not exist`);
+    }
+    const service = this.servicesByName.get(name);
+    this.servicesByName.delete(name);
+    return service!;
   }
 
   has(name: string): boolean {
-    throw new Error("Not implemented");
+    return this.servicesByName.has(name);
   }
 
   toJSON(): SerializedServiceRegistry {
-    throw new Error("Not implemented");
+    return {
+      services: Array.from(this.servicesByName.values()).map((service) => service.toJSON()),
+    };
   }
 }

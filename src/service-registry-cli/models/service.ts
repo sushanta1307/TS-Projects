@@ -99,9 +99,50 @@ export class Service {
 }
 
 export function validateServiceInput(input: ServiceInput): ServiceValidationResult {
-  throw new Error("Not implemented");
+  const requiredFields: Array<{ field: keyof ServiceInput; label: string }> = [
+    { field: "name", label: "Name" },
+    { field: "url", label: "URL" },
+    { field: "environment", label: "Environment" },
+    { field: "owner", label: "Owner" },
+  ];
+
+  const issues = requiredFields
+    .filter(({ field }) => typeof input[field] !== "string" || input[field] === "")
+    .map(({ field, label }) => ({
+      field,
+      message: `${label} is required and must be a string.`,
+    }));
+
+  return {
+    valid: issues.length === 0,
+    issues,
+  };
 }
 
 export function validateServiceUrl(field: keyof ServiceInput, value: string): ServiceValidationIssue[] {
-  throw new Error("Not implemented");
+  if (typeof value !== "string" || value === "") {
+    return [
+      {
+        field,
+        message: "URL is required and must be a string.",
+      },
+    ];
+  }
+
+  try {
+    const url = new URL(value);
+
+    if (!url.protocol || !url.host) {
+      throw new Error("Invalid absolute URL");
+    }
+
+    return [];
+  } catch {
+    return [
+      {
+        field,
+        message: "URL must be a valid absolute URL.",
+      },
+    ];
+  }
 }
