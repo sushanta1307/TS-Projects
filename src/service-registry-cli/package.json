@@ -1,3 +1,38 @@
 {
-  "type": "module"
+  "name": "service-registry-cli",
+  "version": "0.1.0",
+  "description": "CLI for managing a local service registry.",
+  "type": "module",
+  "bin": {
+    "sushcli": "./bin/run.js"
+  },
+  "oclif": {
+    "bin": "service-registry",
+    "commands": "./dist/commands",
+    "commandDescriptions": {
+      "add": "Register a new service.",
+      "check": "Run health checks for one or more registered services.",
+      "export": "Write the registry to JSON for other tools.",
+      "get": "Show one service by name.",
+      "list": "Show registered services.",
+      "remove": "Delete a service from the registry.",
+      "update": "Modify an existing service."
+    },
+    "plugins": [
+      "@oclif/plugin-help"
+    ]
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build",
+    "start": "node ./bin/run.js"
+  },
+  "dependencies": {
+    "@oclif/core": "^4.0.0",
+    "@oclif/plugin-help": "^6.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.0.0"
+  }
 }
