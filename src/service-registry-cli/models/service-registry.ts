@@ -34,7 +34,13 @@ export class ServiceRegistry {
   }
 
   add(input: ServiceInput): Service {
-    return new Service(input);
+    if (this.has(input.name)) {
+      throw new Error(`Service with name "${input.name}" already exists`);
+    }
+
+    const service = new Service(input);
+    this.servicesByName.set(service.name, service);
+    return service;
   }
 
   get(name: string): Service | undefined {
